@@ -4,7 +4,11 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 export default class App extends React.Component {
   state = {
     counter: 0,
+    counterHw: 0,
+    counterService: 0,
+    counterStudy: 0,
     hwFirstWeek: false,
+    serFirstWeek: false,
   };
 
   render() {
@@ -13,47 +17,149 @@ export default class App extends React.Component {
       {(() => {
         if (!this.state.hwFirstWeek) {
           return (
-            <View style={styles.container}>
+            <View style={styles.containerButton}>
               <Button title="Do homework"
-                onPress={this._handlePress.bind(this)} 
+                onPress={this._handlePressHw.bind(this)} 
                 style={styles.button}>
               </Button>
+              <Text>
+                Homework done: {this.state.counterHw}
+              </Text>
+            </View>
+          );
+        } else if(!this.state.serFirstWeek) {
+          return (
+            <View style={styles.containerButton}>
+              <View style={styles.containerButton}>
+              <Button title="Do community service"
+                onPress={this._handlePressSer.bind(this)} 
+                style={styles.button}>
+              </Button>
+              <Text>
+                Hours vounteered: {this.state.counterService}
+              </Text>
+              </View>
+
+              <View style={styles.containerButton}>
+              <Button title="Do homework"
+                onPress={this._handlePressHw.bind(this)} 
+                style={styles.button}>
+              </Button>
+              <Text>
+                Homework done: {this.state.counterHw}
+              </Text>
+              </View>
             </View>
           );
         } else {
           return (
-            <View style={styles.container}>
-              <Button title="Do community service"
-                onPress={this._handlePress.bind(this)} 
+            <View style={styles.containerButton}>
+              <View style={styles.containerButton}>
+              <Button title="Study for tests"
+                onPress={this._handlePressStu.bind(this)} 
                 style={styles.button}>
               </Button>
+              <Text>
+                Topics reviewed: {this.state.counterStudy}
+              </Text>
+              </View>
+
+              <View style={styles.containerButton}>
+              <Button title="Do community service"
+                onPress={this._handlePressSer.bind(this)} 
+                style={styles.button}>
+              </Button>
+              <Text>
+                Hours vounteered: {this.state.counterService}
+              </Text>
+              </View>
+
+              <View style={styles.containerButton}>
+              <Button title="Do homework"
+                onPress={this._handlePressHw.bind(this)} 
+                style={styles.button}>
+              </Button>
+              <Text>
+                Homework done: {this.state.counterHw}
+              </Text>
+              </View>
             </View>
           );
         }
       })()}
+
         <View style={styles.clickCounter}>
-        <Text>
-          Clicks: {this.state.counter}              Homework done: {this.state.counter}
-        </Text>
+          <Text>
+            Clicks: {this.state.counter}
+          </Text>
+          <Text>
+            Homework done: {this.state.counterHw}
+          </Text>
+
+          <Text>
+            Hours vounteered: {this.state.counterService}
+          </Text>
+          <Text>
+            Topics reviewed: {this.state.counterStudy}
+          </Text>
+
         </View>
       </View>
     );
   }
 
-  _handlePress(event) {
+
+  _handlePressHw(event) {
     this.setState({
       counter: this.state.counter + 1
     });
+
+    this.setState({
+      counterHw: this.state.counterHw + 1
+    });
+
     console.log('Pressed', this.state.counter);
 
-    if(this.state.counter==4) {
+    if(this.state.counterHw==4) {
       this.setState({
         hwFirstWeek: true
       })
-    }
-    
+    } 
   }
+
+  _handlePressSer(event) {
+    this.setState({
+      counter: this.state.counter + 1
+    });
+
+    this.setState({
+      counterService: this.state.counterService + 1
+    });
+
+    console.log('Pressed', this.state.counter);
+
+    if(this.state.counterService==4) {
+      this.setState({
+        serFirstWeek: true
+      });
+    } 
+  }
+
+  _handlePressStu(event) {
+    this.setState({
+      counter: this.state.counter + 1
+    });
+
+    this.setState({
+      counterStudy: this.state.counterStudy + 1
+    });
+
+    console.log('Pressed', this.state.counter);
+  }
+
 }
+
+
 
 //justifyContent = vertically
 //  flex-start = top
@@ -72,11 +178,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  clickCounter: {
+  containerButton: {
     flex: 0.5,
-    backgroundColor: '#0f0',
+    flexDirection: 'column',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 50,
+  },
+  clickCounter: {
+    flex: 0.25,
+    flexDirection: 'column',
+    backgroundColor: 'steelblue',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    width: 200,
+    padding: 20,
   },
   button: {
     backgroundColor: '#f00',
