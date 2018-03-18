@@ -1,6 +1,46 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
+class ButtonAndCounter extends React.Component {
+  state = {
+    counter: 0
+  }; 
+
+
+  constructor(props) {
+    this.props = props;
+
+  }
+  
+
+  _handlePress(event) {
+    this.setState({
+      counter: this.state.counter + 1
+    });
+
+    console.log('Pressed', this.state.counter);
+
+    //if(this.state.counter == this.props.maxCounter) {
+      //this.props.onReachedMax();
+    //} 
+  }
+
+  render() {
+    return (
+      <View style={styles.containerButton}>
+        <Button title='hi'//{this.props.titleButton}
+          onPress={this._handlePress.bind(this)} 
+          style={styles.button}>
+        </Button>
+        <Text>
+          //{this.props.counterText}: {this.state.counter}
+        </Text>
+      </View>
+    );
+  }
+}
+
+
 export default class App extends React.Component {
   state = {
     counter: 0,
@@ -15,19 +55,23 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
       {(() => {
+
         if (!this.state.hwFirstWeek) {
           return (
-            <View style={styles.containerButton}>
-              <Button title="Do homework"
-                onPress={this._handlePressHw.bind(this)} 
-                style={styles.button}>
-              </Button>
-              <Text>
-                Homework done: {this.state.counterHw}
-              </Text>
-            </View>
+            <ButtonAndCounter 
+              maxCounter=4
+              titleButton="Do homework"
+              onReachedMax={() => {
+                this.setState({
+                  hwFirstWeek: true
+                });
+              }}
+              counterText="Homework done">
+            </ButtonAndCounter>
           );
-        } else if(!this.state.serFirstWeek) {
+
+        } 
+          /*else if(!this.state.serFirstWeek) {
           return (
             <View style={styles.containerButton}>
               <View style={styles.containerButton}>
@@ -86,8 +130,10 @@ export default class App extends React.Component {
             </View>
           );
         }
+        */
       })()}
 
+/*
         <View style={styles.clickCounter}>
           <Text>
             Clicks: {this.state.counter}
@@ -104,29 +150,14 @@ export default class App extends React.Component {
           </Text>
 
         </View>
+        */
+
       </View>
     );
+
   }
 
-
-  _handlePressHw(event) {
-    this.setState({
-      counter: this.state.counter + 1
-    });
-
-    this.setState({
-      counterHw: this.state.counterHw + 1
-    });
-
-    console.log('Pressed', this.state.counter);
-
-    if(this.state.counterHw==4) {
-      this.setState({
-        hwFirstWeek: true
-      })
-    } 
-  }
-
+/*
   _handlePressSer(event) {
     this.setState({
       counter: this.state.counter + 1
@@ -156,6 +187,7 @@ export default class App extends React.Component {
 
     console.log('Pressed', this.state.counter);
   }
+  */
 
 }
 
