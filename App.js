@@ -6,37 +6,20 @@ class ButtonAndCounter extends React.Component {
     counter: 0
   }; 
 
-
   constructor(props) {
-    this.props = props;
-
-  }
-  
-
-  _handlePress(event) {
-    this.setState({
-      counter: this.state.counter + 1
-    });
-
-    console.log('Pressed', this.state.counter);
-
-    //if(this.state.counter == this.props.maxCounter) {
-      //this.props.onReachedMax();
-    //} 
+    super(props);
   }
 
   render() {
+    if(this.props.maxCounter == 4) {
     return (
-      <View style={styles.containerButton}>
-        <Button title='hi'//{this.props.titleButton}
-          onPress={this._handlePress.bind(this)} 
-          style={styles.button}>
-        </Button>
-        <Text>
-          //{this.props.counterText}: {this.state.counter}
-        </Text>
+      <View>
+        <Text>hi</Text>
       </View>
     );
+  } else {
+    return <View> </View>
+  }
   }
 }
 
@@ -58,16 +41,8 @@ export default class App extends React.Component {
 
         if (!this.state.hwFirstWeek) {
           return (
-            <ButtonAndCounter 
-              maxCounter=4
-              titleButton="Do homework"
-              onReachedMax={() => {
-                this.setState({
-                  hwFirstWeek: true
-                });
-              }}
-              counterText="Homework done">
-            </ButtonAndCounter>
+            <ButtonAndCounter maxCounter={4} />
+            
           );
 
         } 
@@ -133,7 +108,7 @@ export default class App extends React.Component {
         */
       })()}
 
-/*
+        
         <View style={styles.clickCounter}>
           <Text>
             Clicks: {this.state.counter}
@@ -150,7 +125,7 @@ export default class App extends React.Component {
           </Text>
 
         </View>
-        */
+        
 
       </View>
     );
