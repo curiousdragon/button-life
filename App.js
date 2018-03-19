@@ -81,7 +81,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    let total = 1;
+    let total = 10;
     if(this.state.counterTotal==total) {
       return(
         <GameOver allCounters={this.state.allCounters}

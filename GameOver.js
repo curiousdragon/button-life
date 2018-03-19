@@ -18,8 +18,8 @@ export default class GameOver extends React.Component {
   constructor(props) {
     super(props);
 
-    this.hwLevel = 6;
-    this.serLevel = 4;
+    this.hwLevel = 5;
+    this.serLevel = 2;
     this.level = -1;
     if(props.allCounters['homework']>this.hwLevel) {
       this.level++;
