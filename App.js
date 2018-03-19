@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
+import GameOver from './GameOver';
+
 class ButtonAndCounter extends React.Component {
   state = {
     counter: 0
@@ -17,20 +19,22 @@ class ButtonAndCounter extends React.Component {
 
     console.log('Pressed', this.state.counter);
 
-    //if(this.state.counter == this.props.maxCounter) {
-      //this.props.onReachedMax();
-    //} 
+    if(this.state.counter == this.props.maxCounter) {
+      this.props.onReachedMax();
+    }
+    this.props.onCounterIncrement();
+
   }
 
   render() {
     return (
       <View style={styles.containerButton}>
-        <Button title='hi'//{this.props.titleButton}
+        <Button title={this.props.titleButton}
           onPress={this._handlePress.bind(this)} 
           style={styles.button}>
         </Button>
         <Text>
-          //{this.props.counterText}: {this.state.counter}
+          {this.props.counterText}: {this.state.counter}
         </Text>
       </View>
     );
@@ -39,154 +43,104 @@ class ButtonAndCounter extends React.Component {
 
 
 export default class App extends React.Component {
-  state = {
-    counter: 0,
-    counterHw: 0,
-    counterService: 0,
-    counterStudy: 0,
-    hwFirstWeek: false,
-    serFirstWeek: false,
-  };
+  
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialState();
+  }
+
+  getInitialState() {
+    return {
+      counterTotal: 0,
+      allCounters: {
+        homework: 0,
+        service: 0,
+        study: 0,
+      },
+      hwFirstWeek: false,
+      serFirstWeek: false,
+    };
+  }
+
+  reset() {
+    this.setState(this.getInitialState());
+  }
+
+  incrementTotalCounter() {
+    this.setState({
+      counterTotal: this.state.counterTotal + 1
+    })
+  }
+
+  incrementSubCounter(counterName) {
+    const counters = this.state.allCounters;
+    counters[counterName] += 1;
+    this.setState({
+      allCounters: counters
+    })
+  }
 
   render() {
+    let total = 1;
+    if(this.state.counterTotal==total) {
+      return(
+        <GameOver allCounters={this.state.allCounters}
+        reset= {()=>{this.reset()}}/>
+        );
+    }
+
     return (
       <View style={styles.container}>
+        <Text>On your path to college.</Text>
+        <Text></Text>
+        <Text>Days left until the Reckoning: {total-this.state.counterTotal}</Text>
+        <ButtonAndCounter onReachedMax={() => {
+          this.setState({
+          hwFirstWeek: true
+            });
+          }}
+          onCounterIncrement={() => {
+            this.incrementTotalCounter();
+            this.incrementSubCounter('homework');
+          }}
+          counterText='Homework done'
+          titleButton='Do homework'
+          maxCounter={4}>
+        </ButtonAndCounter>
+
       {(() => {
 
-        if (!this.state.hwFirstWeek) {
-          return (
-            <ButtonAndCounter maxCounter={4} />
 
-            /*            
-            <ButtonAndCounter 
-              maxCounter=4
-              titleButton="Do homework"
-              onReachedMax={() => {
+        if(this.state.hwFirstWeek) {
+          return (
+            <ButtonAndCounter onReachedMax={() => {
                 this.setState({
-                  hwFirstWeek: true
+                  serFirstWeek: true
                 });
               }}
-              counterText="Homework done">
-            */
-          );
-
-        } 
-          /*else if(!this.state.serFirstWeek) {
-          return (
-            <View style={styles.containerButton}>
-              <View style={styles.containerButton}>
-              <Button title="Do community service"
-                onPress={this._handlePressSer.bind(this)} 
-                style={styles.button}>
-              </Button>
-              <Text>
-                Hours vounteered: {this.state.counterService}
-              </Text>
-              </View>
-
-              <View style={styles.containerButton}>
-              <Button title="Do homework"
-                onPress={this._handlePressHw.bind(this)} 
-                style={styles.button}>
-              </Button>
-              <Text>
-                Homework done: {this.state.counterHw}
-              </Text>
-              </View>
-            </View>
-          );
-        } else {
-          return (
-            <View style={styles.containerButton}>
-              <View style={styles.containerButton}>
-              <Button title="Study for tests"
-                onPress={this._handlePressStu.bind(this)} 
-                style={styles.button}>
-              </Button>
-              <Text>
-                Topics reviewed: {this.state.counterStudy}
-              </Text>
-              </View>
-
-              <View style={styles.containerButton}>
-              <Button title="Do community service"
-                onPress={this._handlePressSer.bind(this)} 
-                style={styles.button}>
-              </Button>
-              <Text>
-                Hours vounteered: {this.state.counterService}
-              </Text>
-              </View>
-
-              <View style={styles.containerButton}>
-              <Button title="Do homework"
-                onPress={this._handlePressHw.bind(this)} 
-                style={styles.button}>
-              </Button>
-              <Text>
-                Homework done: {this.state.counterHw}
-              </Text>
-              </View>
-            </View>
+              onCounterIncrement={() => {
+                this.incrementTotalCounter();
+                this.incrementSubCounter('service');
+              }}
+              counterText='Hours volunteered'
+              titleButton='Do community service'
+              maxCounter={4}>
+            </ButtonAndCounter>
           );
         }
-        */
       })()}
 
         <View style={styles.clickCounter}>
           <Text>
-            Clicks: {this.state.counter}
+            Clicks: {this.state.counterTotal}
           </Text>
-          <Text>
-            Homework done: {this.state.counterHw}
-          </Text>
-
-          <Text>
-            Hours vounteered: {this.state.counterService}
-          </Text>
-          <Text>
-            Topics reviewed: {this.state.counterStudy}
-          </Text>
-
+          <Text>homework: {this.state.allCounters['homework']}</Text>
         </View>
 
       </View>
     );
 
   }
-
-/*
-  _handlePressSer(event) {
-    this.setState({
-      counter: this.state.counter + 1
-    });
-
-    this.setState({
-      counterService: this.state.counterService + 1
-    });
-
-    console.log('Pressed', this.state.counter);
-
-    if(this.state.counterService==4) {
-      this.setState({
-        serFirstWeek: true
-      });
-    } 
-  }
-
-  _handlePressStu(event) {
-    this.setState({
-      counter: this.state.counter + 1
-    });
-
-    this.setState({
-      counterStudy: this.state.counterStudy + 1
-    });
-
-    console.log('Pressed', this.state.counter);
-  }
-  */
-
 }
 
 
@@ -209,7 +163,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   containerButton: {
-    flex: 0.5,
+    flex: 0.25,
     flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
