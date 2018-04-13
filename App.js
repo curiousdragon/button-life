@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 import GameOver from './GameOver';
+import { Word, Template } from './Word';
+import Essay from './Essay';
 
 class ButtonAndCounter extends React.Component {
   state = {
@@ -55,10 +57,12 @@ export default class App extends React.Component {
       allCounters: {
         homework: 0,
         service: 0,
-        study: 0,
+        essay: 0,
       },
       hwFirstWeek: false,
       serFirstWeek: false,
+      essFirstWeek: false,
+      essClicked: false,
     };
   }
 
@@ -81,11 +85,17 @@ export default class App extends React.Component {
   }
 
   render() {
-    let total = 10;
+    let total = 20;
     if(this.state.counterTotal==total) {
       return(
         <GameOver allCounters={this.state.allCounters}
         reset= {()=>{this.reset()}}/>
+        );
+    }
+
+    if(true) {
+      return(
+        <Essay reset= {()=>{this.reset()}}/>
         );
     }
 
@@ -109,8 +119,6 @@ export default class App extends React.Component {
         </ButtonAndCounter>
 
       {(() => {
-
-
         if(this.state.hwFirstWeek) {
           return (
             <ButtonAndCounter onReachedMax={() => {
@@ -127,21 +135,33 @@ export default class App extends React.Component {
               maxCounter={4}>
             </ButtonAndCounter>
           );
+        } 
+
+        if(this.state.serFirstWeek) {
+          return (
+            <View style={styles.containerButton}>
+              <Button title='Write an essay'
+                onPress= {() => { 
+                  this.setState({
+                    essClicked: true
+                  });
+                }}
+                style={styles.button}>
+              </Button>
+              <Text>
+                'Essays written': {this.state.allCounters['essay']}
+              </Text>
+            </View>
+          );
         }
       })()}
-
-        <View style={styles.clickCounter}>
-          <Text>
-            Clicks: {this.state.counterTotal}
-          </Text>
-          <Text>homework: {this.state.allCounters['homework']}</Text>
-        </View>
-
       </View>
+        
     );
 
   }
 }
+
 
 
 
