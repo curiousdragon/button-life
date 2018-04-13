@@ -15,6 +15,11 @@ export class Template {
 		this.lines = lines;
 		this.blank_possibilities = blank_possibilities;
 	}
+
+	getMeaningFor(i) {
+		let num = Math.floor(Math.random() * this.blank_possibilities[i].length);
+		return this.blank_possibilities[i][num];
+	}
 }
 
 const templateBank = [
@@ -47,7 +52,7 @@ function getNDistinctFakeWordStrings(n) {
 	return results;
 }
 
- export default class Word {
+export default class Word {
 	// str = the word itself
 	// meaning = definition
 	// pos = template position 
@@ -64,24 +69,43 @@ function getRandomTemplate() {
 	return templateBank[index];
 }
 
-function getTemplateAndWords() {
+export function getTemplateAndWords() {
 	template = getRandomTemplate();
 
-	const n = template.numSlots();
+	const n = template.blank_possibilities.length;
 	const wordstrings = getNDistinctFakeWordStrings(n);
 	let words = [];
 	wordstrings.forEach((str, i) => {
-	  words.push(Word(
+	  words.push(new Word(
         str, template.getMeaningFor(i), i
       ))
-	})
+	});
+
+	return {
+		template: template,
+		words: words,
+	};
 }
 
 
-
-
-
-
-
-
-
+//return [template, words]
+//
+//let [template, words] = getRandomTemplate();
+//let result = getRandomTemplate();
+//let template = result[0]
+//let words = result[1]
+//
+//alternatively
+//
+//return {
+//template: template,
+//words: words
+//}
+//
+//let {template: template1, words: words2, k: kval} = getRandomTemplate();
+//
+//above line and below lines are the exact same
+//
+//let result = getRandomTemplate();
+//let template1 = result.template;
+//let words2 = result.words;

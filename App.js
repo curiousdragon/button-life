@@ -65,7 +65,7 @@ export default class App extends React.Component {
       essClicked: false,
     };
   }
-
+  
   reset() {
     this.setState(this.getInitialState());
   }

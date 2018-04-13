@@ -1,30 +1,28 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-
 import COLORS from './colors';
 
-import * as Word from './Word';
+import { Word, Template } from './Word';
 
 
-export default class Essay extends React.Component {
+export default class Score extends React.Component {
 	constructor(props) {
 		super(props);
 
-    //let {template: this.template, words: this.words} = Word.getTemplateAndWords();
-    let result = Word.getTemplateAndWords();
-    this.template = result.template;
-    this.words = result.words;
+    this.state.essGame = props.essGame;
 	}
+
+  getInitialState() {
+    return {
+      this.essGame = false;
+      this.essGameScore = 0;
+    };
+  }
 
 	render() {
 		return(
 			<View style={styles.container}>
-        <View style={styles.container}>
-          <Text>Word Bank</Text>
-          <Text>{this.renderTemplate()}</Text>
-        </View>
-
         <View style={styles.containerButton}>
           <Button title='I am done with my essay'
             onPress={this._handlePress.bind(this)} 
@@ -36,17 +34,8 @@ export default class Essay extends React.Component {
 	}
 
 	_handlePress(event) {
-    //this.props.reset();
+    this.props.reset();
 	}
-
-  renderTemplate() {
-    let text = '';
-    this.template.lines.forEach((line) => {
-      text += line + ' ___ ';
-    });
-
-    return text;
-  }
 }
 
 //justifyContent = vertically
