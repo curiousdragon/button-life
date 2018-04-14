@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button , Picker } from 'react-native';
 
 
 import COLORS from './colors';
@@ -15,15 +15,21 @@ export default class Essay extends React.Component {
     let result = Word.getTemplateAndWords();
     this.template = result.template;
     this.words = result.words;
+
+    this.state = this.getInitialState();
 	}
+
+  getInitialState() {
+    return{
+      language: "Java"
+    }
+  }
 
 	render() {
 		return(
 			<View style={styles.container}>
-        <View style={styles.container}>
-          <Text>Word Bank</Text>
-          <Text>{this.renderTemplate()}</Text>
-        </View>
+
+        <Text>{this.renderTemplate2()}</Text>
 
         <View style={styles.containerButton}>
           <Button title='I am done with my essay'
@@ -31,6 +37,19 @@ export default class Essay extends React.Component {
             style={styles.button}>
           </Button>
         </View>
+
+        <Text>Word Bank</Text>
+        <Picker
+        selectedValue={this.state.language}
+        style={{ height: 50, width: 200 }}
+        mode='dialog'
+        onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
+        
+        {this.words.map((word) => {
+             return <Picker.Item key={word.str} label={word.str} value={word.str} />
+          })}
+
+        </Picker>
 			</View>
       );
 	}
@@ -40,6 +59,20 @@ export default class Essay extends React.Component {
 	}
 
   renderTemplate() {
+    this.template.lines.forEach((line) => {
+
+    });
+
+    return (
+      <View style={styles.container}>
+        {(() => {
+
+        })}
+      </View>
+      );
+  }
+
+  renderTemplate2() {
     let text = '';
     this.template.lines.forEach((line) => {
       text += line + ' ___ ';
