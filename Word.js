@@ -14,6 +14,11 @@ export class Template {
 	constructor(lines, blank_possibilities) {
 		this.lines = lines;
 		this.blank_possibilities = blank_possibilities;
+
+		this.lineIndexes = {};
+		this.lines.forEach((line, i) => {
+			this.lineIndexes[line] = i;
+		})
 	}
 
 	getMeaningFor(i) {

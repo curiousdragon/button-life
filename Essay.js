@@ -20,8 +20,8 @@ export default class Essay extends React.Component {
 	}
 
   getInitialState() {
-    return{
-      language: "Java"
+    return {
+      blankIndex: 0,
     }
   }
 
@@ -29,7 +29,7 @@ export default class Essay extends React.Component {
 		return(
 			<View style={styles.container}>
 
-        <Text>{this.renderTemplate2()}</Text>
+        {this.renderTemplate()}
 
         <View style={styles.containerButton}>
           <Button title='I am done with my essay'
@@ -39,10 +39,10 @@ export default class Essay extends React.Component {
         </View>
 
         <Text>Word Bank</Text>
+        <Text>Blank number: {this.state.blankIndex}</Text>
         <Picker
-        selectedValue={this.state.language}
+        selectedValue={this.words[0]}
         style={{ height: 50, width: 200 }}
-        mode='dialog'
         onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
         
         {this.words.map((word) => {
@@ -59,14 +59,18 @@ export default class Essay extends React.Component {
 	}
 
   renderTemplate() {
-    this.template.lines.forEach((line) => {
-
-    });
-
     return (
       <View style={styles.container}>
-        {(() => {
-
+        {this.template.lines.map((line, i) => {
+          return (
+              <View key={i}>
+              <Text>{line}</Text>
+              <Button title='_blank_'
+                onPress={() => this.setState({blankIndex: this.template.lineIndexes[line]})}
+                style={styles.containerButton}>
+              </Button>
+              </View>
+            )
         })}
       </View>
       );
