@@ -34,8 +34,12 @@ export default class Score extends React.Component {
 	}
 
 	_handlePress(event) {
-    this.props.reset();
+    this.props.getScore();
 	}
+
+  getScore() {
+    
+  }
 }
 
 //justifyContent = vertically

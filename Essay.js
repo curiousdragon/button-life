@@ -20,17 +20,25 @@ export default class Essay extends React.Component {
 	}
 
   getInitialState() {
+    let blankStates = {};
+      this.template.lines.forEach((line, i) => {
+        blankStates[i] = 'blank';
+      });
+
     return {
       blankIndex: 0,
       blankAnswer: '',
+      blankStates: blankStates,
     }
   }
 
 	render() {
+
+
 		return(
 			<View style={styles.container}>
 
-        {this.renderTemplate()}
+        {this.renderTemplate(this.state.blankStates)}
 
         <View style={styles.container}>
         <Text>Word Bank</Text>
@@ -62,14 +70,14 @@ export default class Essay extends React.Component {
     //this.props.reset();
 	}
 
-  renderTemplate() {
+  renderTemplate(blankStates) {
     return (
       <View style={styles.container}>
         {this.template.lines.map((line, i) => {
           return (
               <View key={i}>
               <Text style={{fontSize: 18}}>{line}</Text>
-              <Button title='_blank_'
+              <Button title={blankStates[i]}
                 onPress={() => this.setState({blankIndex: this.template.lineIndexes[line]})}
                 style={styles.containerButton}>
               </Button>
