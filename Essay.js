@@ -33,8 +33,6 @@ export default class Essay extends React.Component {
   }
 
 	render() {
-
-
 		return(
 			<View style={styles.container}>
 
@@ -47,7 +45,14 @@ export default class Essay extends React.Component {
         <Picker
         selectedValue={this.state.blankAnswer}
         style={{ height: 50, width: 200 }}
-        onValueChange={(itemValue, itemIndex) => this.setState({blankAnswer: itemValue})}>
+        onValueChange={(itemValue, itemIndex) => {
+          let newBlankStates = this.state.blankStates;
+          newBlankStates[this.state.blankIndex] = itemValue;
+          this.setState({
+            blankAnswer: itemValue,
+            blankStates: newBlankStates
+          });
+        }}>
         
         {this.words.map((word) => {
              return <Picker.Item key={word.str} label={word.str} value={word.str} />
