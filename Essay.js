@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button , Picker } from 'react-native';
 
-
 import COLORS from './colors';
-
+//import Score from './Score';
 import * as Word from './Word';
 
 
@@ -29,10 +28,15 @@ export default class Essay extends React.Component {
       blankIndex: 0,
       blankAnswer: '',
       blankStates: blankStates,
+      getScore: false,
     }
   }
 
 	render() {
+    if(this.state.getScore) {
+      //return (<Score essGame=true reset= {()=>{this.reset()}}/>);
+    }
+
 		return(
 			<View style={styles.container}>
 
@@ -72,7 +76,7 @@ export default class Essay extends React.Component {
 	}
 
 	_handlePress(event) {
-    //this.props.reset();
+    this.setState({getScore: true});
 	}
 
   renderTemplate(blankStates) {

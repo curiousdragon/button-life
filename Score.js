@@ -10,14 +10,14 @@ export default class Score extends React.Component {
 	constructor(props) {
 		super(props);
 
-    this.state.essGame = props.essGame;
+    this.essGame = props.essGame;
+    this.state = this.getInitialState();
 	}
 
   getInitialState() {
     return {
-      this.essGame = false;
-      this.essGameScore = 0;
-    };
+      essGameScore = 0;
+    }
   }
 
 	render() {
@@ -34,12 +34,8 @@ export default class Score extends React.Component {
 	}
 
 	_handlePress(event) {
-    this.props.getScore();
+    //this.props.reset();
 	}
-
-  getScore() {
-    
-  }
 }
 
 //justifyContent = vertically
