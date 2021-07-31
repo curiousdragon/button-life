@@ -93,11 +93,11 @@ export default class App extends React.Component {
         );
     }
 
-    if(true) {
-      return(
-        <Essay reset= {()=>{this.reset()}}/>
-        );
-    }
+    // if(true) {
+    //  return(
+    //    <Essay reset= {()=>{this.reset()}}/>
+    //    );
+    //}
 
     return (
       <View style={styles.container}>
